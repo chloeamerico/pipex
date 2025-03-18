@@ -1,3 +1,12 @@
 Ceci est une autre ligne
 Hello, fichier
 
+je voulais ajouter cette ligne dans exec_cmd1:
+
+		execute_cmd(cmd, envp);
+		if (execute_cmd != 0)
+			return(1);
+
+mais execute_cmd ne renvoie rien puisqu'elle est de type void et qu'elle fait juste exit si find_cmd_path echoue
+
+Alors comment faire pour dire que dans le main, on return (1)

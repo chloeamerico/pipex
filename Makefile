@@ -8,9 +8,9 @@ LIBFT_DIR 	=	libft/
 SRCS_DIR	=	srcs/
 OBJ_DIR		=	obj/
 
-SRCS = errors.c /
-	exec_cmd.c /
-	pipex.c /
+SRCS = errors_and_free.c \
+	exec_cmd.c \
+	pipex.c \
 
 HEADER = so_long.h
 

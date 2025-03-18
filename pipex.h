@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:04:25 by camerico          #+#    #+#             */
-/*   Updated: 2025/03/17 15:40:41 by camerico         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:29:16 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <stdbool.h>
 # include "./libft/includes/libft.h"
 # include <fcntl.h> 
+# include <sys/wait.h>
 
 /* ************************************************************************** */
 /* DEFINES                                                                    */
@@ -35,11 +36,15 @@
 /* STRUCTURES                                                                 */
 /* ************************************************************************** */
 
-
-
 /* ************************************************************************** */
 /* PROTO                                                                      */
 /* ************************************************************************** */
+
+void	free_cmd_arg(char **cmd_arg);
+int	exec_cmd1(int infile, int pipefd[2], char **envp, char *cmd);
+int	exec_cmd2(int outfile, int pipefd[2], char **envp, char *cmd);
+void	execute_cmd(char *cmd, char **envp);
+char	*find_cmd_path(char *cmd, char **envp);
 
 
 /* ************************************************************************** */

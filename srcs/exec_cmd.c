@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:27:11 by camerico          #+#    #+#             */
-/*   Updated: 2025/03/17 19:56:45 by camerico         ###   ########.fr       */
+/*   Updated: 2025/03/18 19:39:28 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,42 +100,42 @@ void	execute_cmd(char *cmd, char **envp)
 	cmd_path = find_cmd_path(cmd_arg[0], envp);
 	if (!cmd_path)
 	{
-		ft_printf("Command %c not found", cmd_arg[0]);
-		exit (1);
+		ft_putstr_fd("Command ", STDERR_FILENO);
+		ft_putstr_fd(cmd_arg[0], STDERR_FILENO);
+		ft_putstr_fd(" not found\n", STDERR_FILENO);
+		// ft_printf("Command %s not found", cmd_arg[0]);
+		exit(127); // indique que la commande est introuvable
 	}
-	
 	// on execute la commande
 	execve(cmd_path, cmd_arg, envp);
+	free_cmd_arg(cmd_arg);
+	free(cmd_path);
 }
 
-// cette fonction recup la var d'env PATH pour 
-char	*find_cmd_path()
-{
-	
-}
 
+// cette fonction cherche le PATH parmi toutes les var d'env de envp
+// puis teste toutes les diff chemin possibles pour trouver le chemin de la commande 
 char	*find_cmd_path(char *cmd, char **envp)
 {
-	int		i;
+	int	i;
 	char	**paths;
+	char	*tmp;
 	char	*full_path;
-	char	*temp;
 
 	i = 0;
-	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
+	while(envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
 	if (!envp[i])
 		return (NULL);
-	paths = ft_split(envp[i] + 5, ':'); // On ignore "PATH="
-
+	paths = (ft_split(envp[i] + 5, ':'));
+	
 	i = 0;
-	while (paths[i])
+	while(paths[i])
 	{
-		temp = ft_strjoin(paths[i], "/");
-		full_path = ft_strjoin(temp, cmd);
-		free(temp);
+		tmp = ft_strjoin(paths[i], "/");
+		full_path = ft_strjoin(tmp, cmd);
 		if (access(full_path, X_OK) == 0)
-			return (full_path);
+			return (free(tmp), free(paths), full_path);
 		free(full_path);
 		i++;
 	}

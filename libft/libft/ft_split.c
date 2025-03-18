@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 16:36:43 by camerico          #+#    #+#             */
-/*   Updated: 2024/11/28 16:37:27 by camerico         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:49:08 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int	split2(char const *s, char **lst, char c)
 // recherche la premiere occurence du char c dans *s
 // retourne un tableau de stings obtenues chacune par le delimiteur c
 // doit etre termine par NULL
+//utilisation de malloc
 char	**ft_split(char const *s, char c)
 {
 	char	**lst;
