@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:27:11 by camerico          #+#    #+#             */
-/*   Updated: 2025/03/18 19:39:28 by camerico         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:53:37 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	exec_cmd1(int infile, int pipefd[2], char **envp, char *cmd)
 		close(pipefd[0]);
 		close(infile);
 		close(pipefd[1]);
-		
-		execute_cmd(cmd, envp);
+
+		execute_cmd(cmd, envp, pipefd);
 	}
 	return(0);
 }
@@ -80,12 +80,13 @@ int	exec_cmd2(int outfile, int pipefd[2], char **envp, char *cmd)
 		close(outfile);
 		close(pipefd[1]);
 		
-		execute_cmd(cmd, envp);
+		execute_cmd(cmd, envp, pipefd);
+		exit(1);
 	}
 	return(0);
 }
 
-void	execute_cmd(char *cmd, char **envp)
+void	execute_cmd(char *cmd, char **envp, int pipefd[2])
 {
 	char	**cmd_arg; //tab qui va contenir les arguments de la commande
 	char	*cmd_path; // chmin de la commande
@@ -103,13 +104,17 @@ void	execute_cmd(char *cmd, char **envp)
 		ft_putstr_fd("Command ", STDERR_FILENO);
 		ft_putstr_fd(cmd_arg[0], STDERR_FILENO);
 		ft_putstr_fd(" not found\n", STDERR_FILENO);
-		// ft_printf("Command %s not found", cmd_arg[0]);
+		free_tab(cmd_arg);
 		exit(127); // indique que la commande est introuvable
 	}
 	// on execute la commande
-	execve(cmd_path, cmd_arg, envp);
-	free_cmd_arg(cmd_arg);
-	free(cmd_path);
+	if(!execve(cmd_path, cmd_arg, envp))
+	{
+		close (pipefd[0]);
+		close (pipefd[1]);
+	}
+	free_tab(cmd_arg);
+	exit(1);
 }
 
 
@@ -137,7 +142,9 @@ char	*find_cmd_path(char *cmd, char **envp)
 		if (access(full_path, X_OK) == 0)
 			return (free(tmp), free(paths), full_path);
 		free(full_path);
+		free(tmp);
 		i++;
 	}
+	free_tab(paths);
 	return (NULL);
 }

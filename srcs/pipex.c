@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:26:35 by camerico          #+#    #+#             */
-/*   Updated: 2025/03/18 19:23:28 by camerico         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:03:09 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,7 @@ int	main(int argc, char **argv, char **envp)
 		close (outfile);
 		return (1);
 	}
-	if (exec_cmd1(infile, pipefd, envp, argv[2]))
-	{
-		close(pipefd[0]);
-		close(pipefd[1]);
-		close(infile);
-		close(outfile);
-		return (1);
-	}
+	exec_cmd1(infile, pipefd, envp, argv[2]);
 	exec_cmd2(outfile, pipefd, envp, argv[3]);
 	
 //	on ferme tous les fichiers dans le process parent

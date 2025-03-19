@@ -6,21 +6,21 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:50:38 by camerico          #+#    #+#             */
-/*   Updated: 2025/03/18 16:52:36 by camerico         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:13:52 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	free_cmd_arg(char **cmd_arg)
+void	free_tab(char **tab)
 {
 	int	i;
 
 	i = 0;
-	while (cmd_arg[i])
+	while (tab[i])
 	{
-		free(cmd_arg[i]);
+		free(tab[i]);
 		i++;
 	}
-	free(cmd_arg);
+	free(tab);
 }
